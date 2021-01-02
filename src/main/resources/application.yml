@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rest_api
+    username: rest
+    password: rest
+    driverClassName: org.postgresql.Driver
+    initialization-mode: always
+    continue-on-error: true
+  jpa:
+    database: postgresql
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
