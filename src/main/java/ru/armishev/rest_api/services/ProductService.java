@@ -25,7 +25,7 @@ public class ProductService {
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable(value="id") long id, WebRequest request) {
+    public Product getById(@PathVariable(value="id") long id) {
         return productJpa.findById(id).orElseThrow(() -> {
                 return new NoSuchElementException("Product not found");
         });
