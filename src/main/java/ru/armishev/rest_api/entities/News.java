@@ -6,9 +6,9 @@ import javax.persistence.*;
 @Table(name="news")
 public class News {
     @Id
-    @Column(name="id", nullable = false)
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -19,11 +19,22 @@ public class News {
     @Column(name = "text")
     private String text;
 
-    public long getId() {
+    @Column(name = "is_deleted", columnDefinition = "boolean default false")
+    private boolean isDeleted = false;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

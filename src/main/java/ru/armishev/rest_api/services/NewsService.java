@@ -1,14 +1,10 @@
 package ru.armishev.rest_api.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import ru.armishev.rest_api.entities.News;
-import ru.armishev.rest_api.entities.Product;
 import ru.armishev.rest_api.jpa.NewsJpa;
-import ru.armishev.rest_api.jpa.ProductJpa;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -34,4 +30,31 @@ public class NewsService {
                 return new NoSuchElementException("Product not found");
         });
     }
+
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public News addElem(@RequestBody News newNews) {
+        return newsJpa.save(newNews);
+    }
+
+    @PutMapping("/{id}")
+    public News updateElem(@PathVariable(value="id") long id, @RequestBody News updateNews) {
+        newsJpa.findById(id).orElseThrow(() -> {
+            return new NoSuchElementException("Product not found");
+        });
+
+        updateNews.setId(id);
+
+        return newsJpa.save(updateNews);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteElem(@PathVariable(value="id") long id) {
+        newsJpa.findById(id).orElseThrow(() -> {
+            return new NoSuchElementException("Product not found");
+        });
+
+        newsJpa.safeDelete(id);
+    }
+
 }
