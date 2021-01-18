@@ -7,9 +7,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.armishev.rest_api.entities.News;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface NewsJpa extends JpaRepository<News, Long> {
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update News n set n.isDeleted = true where n.id = :id")
     int safeDelete(@Param("id") long id);
+
+    List<News> findAllByIsDeletedFalseOrderByIdAsc();
+
+    Optional<News> findByIdAndIsDeletedFalse(long id);
 }

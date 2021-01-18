@@ -21,12 +21,12 @@ public class NewsService {
 
     @GetMapping("")
     public List<News> getList() {
-        return newsJpa.findAll();
+        return newsJpa.findAllByIsDeletedFalseOrderByIdAsc();
     }
 
     @GetMapping("/{id}")
     public News getById(@PathVariable(value="id") long id) {
-        return newsJpa.findById(id).orElseThrow(() -> {
+        return newsJpa.findByIdAndIsDeletedFalse(id).orElseThrow(() -> {
                 return new NoSuchElementException("Product not found");
         });
     }
@@ -39,7 +39,7 @@ public class NewsService {
 
     @PutMapping("/{id}")
     public News updateElem(@PathVariable(value="id") long id, @RequestBody News updateNews) {
-        newsJpa.findById(id).orElseThrow(() -> {
+        newsJpa.findByIdAndIsDeletedFalse(id).orElseThrow(() -> {
             return new NoSuchElementException("Product not found");
         });
 

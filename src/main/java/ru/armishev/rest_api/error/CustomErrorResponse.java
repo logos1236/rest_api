@@ -11,15 +11,7 @@ public class CustomErrorResponse {
     private int status;
     private String error;
     private String url;
-    private Map<String, String[]> params;
-
-    public Map<String, String[]> getParams() {
-        return params;
-    }
-
-    public void setParams(Map<String, String[]> params) {
-        this.params = params;
-    }
+    private String requestBody;
 
     public String getUrl() {
         return url;
