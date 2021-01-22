@@ -36,3 +36,7 @@ build/
 
 ### Log ###
 *.log
+
+### Download directory ###
+/src/main/resources/upload
+/src/test/resources/upload

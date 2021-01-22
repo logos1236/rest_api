@@ -1,6 +1,9 @@
 package ru.armishev.rest_api.entities;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="news")
@@ -10,7 +13,8 @@ public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
+    @NotEmpty(message = "Name may not be empty")
     private String name;
 
     @Column(name = "preview_text")
@@ -21,6 +25,17 @@ public class News {
 
     @Column(name = "is_deleted", columnDefinition = "boolean default false")
     private boolean isDeleted = false;
+
+    @Column(name = "img")
+    private String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public boolean isDeleted() {
         return isDeleted;
@@ -60,5 +75,12 @@ public class News {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "id=" + id +
+                '}';
     }
 }
