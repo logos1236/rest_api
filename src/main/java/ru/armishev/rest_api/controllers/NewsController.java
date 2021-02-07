@@ -1,4 +1,4 @@
-package ru.armishev.rest_api.services;
+package ru.armishev.rest_api.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,12 +17,12 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(value="/api/v1/news")
-public class NewsService {
+public class NewsController {
     private NewsJpa newsJpa;
     private ru.armishev.rest_api.storage.IStorageService IStorageService;
 
     @Autowired
-    public NewsService(NewsJpa newsJpa, IStorageService IStorageService) {
+    public NewsController(NewsJpa newsJpa, IStorageService IStorageService) {
         this.newsJpa = newsJpa;
         this.IStorageService = IStorageService;
     }
@@ -39,17 +39,17 @@ public class NewsService {
         });
     }
 
-    //public News addElem(@RequestPart(required = false) News newNews, @RequestPart(value = "file",required = false) MultipartFile file)
-    @PostMapping(path = "/uploadFile",
+    @PostMapping(path = "/add",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public News addElem(@RequestPart(value="data", required = false) String data,
                            @RequestPart(value = "file",required = false) MultipartFile file) {
         ObjectMapper mapper = new ObjectMapper();
-        News newNews = new News();
+        News newNews = null;
 
         try {
             newNews =  mapper.readValue(data, News.class);
+
 
             String filePath = IStorageService.load(file);
             newNews.setImg(filePath);

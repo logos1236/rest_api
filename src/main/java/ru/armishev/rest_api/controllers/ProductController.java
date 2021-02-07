@@ -1,4 +1,4 @@
-package ru.armishev.rest_api.services;
+package ru.armishev.rest_api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +11,11 @@ import java.util.*;
 
 @RestController
 @RequestMapping(value="/api/v1/product")
-public class ProductService {
+public class ProductController {
     private ProductJpa productJpa;
 
     @Autowired
-    public ProductService(ProductJpa productJpa) {
+    public ProductController(ProductJpa productJpa) {
         this.productJpa = productJpa;
     }
 

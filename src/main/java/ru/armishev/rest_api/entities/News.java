@@ -1,16 +1,19 @@
 package ru.armishev.rest_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.*;
 
 @Entity
 @Table(name="news")
 public class News {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "news_id_seq")
+    @SequenceGenerator(name = "news_id_seq", sequenceName = "news_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "name")
@@ -28,6 +31,18 @@ public class News {
 
     @Column(name = "img")
     private String img;
+
+    @JsonIgnoreProperties(value = {"news"})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "news")
+    private List<NewsComment> listComment;
+
+    public List<NewsComment> getListComment() {
+        return listComment;
+    }
+
+    public void setListComment(List<NewsComment> listComment) {
+        this.listComment = listComment;
+    }
 
     public String getImg() {
         return img;
@@ -77,10 +92,22 @@ public class News {
         this.text = text;
     }
 
+
+    public News() {
+    }
+
+    public News(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "News{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
+                ", previewText='" + previewText + '\'' +
+                ", text='" + text + '\'' +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 }
